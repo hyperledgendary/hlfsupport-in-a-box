@@ -4,6 +4,7 @@ cd "$(dirname "$0")"
 
 git clone https://github.com/rook/rook.git
 cd rook/cluster/examples/kubernetes/ceph
+oc create -f crds.yaml
 oc create -f common.yaml
 oc create -f operator-openshift.yaml
 oc create -f cluster.yaml

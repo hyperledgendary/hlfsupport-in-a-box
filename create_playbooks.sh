@@ -22,7 +22,7 @@ function get_latest_tag {
     -p ${DOCKER_PASSWORD} \
     -r https://${DOCKER_REGISTRY} \
     "$1" \
-    | jq -r ".tags | map(select(test(\"^${2:-${PRODUCT_VERSION}}-\\\\d+-${ARCHITECTURE}\$\"))) | .[-1]"
+    | jq -r ".tags | map(select(test(\"^${2:-${PRODUCT_VERSION}}-\\\\d{8}-${ARCHITECTURE}\$\"))) | .[-1]"
 }
 CRDWEBHOOK_TAG=$(get_latest_tag ${DOCKER_REPOSITORY}/ibp-crdwebhook)
 INIT_TAG=$(get_latest_tag ${DOCKER_REPOSITORY}/ibp-init)

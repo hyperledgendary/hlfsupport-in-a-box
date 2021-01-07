@@ -7,6 +7,7 @@ RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install curl build-essential gcc gzip sudo git \
                   python3.8 python3-distutils libpython3.8-dev unzip sudo zip \
+                  jq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -50,6 +51,10 @@ ENV GOROOT=/opt/go
 ENV GOCACHE=/tmp/gocache
 ENV GOENV=/tmp/goenv
 ENV GOPATH=/tmp/go
+
+# Add editor
+RUN cd /usr/local/bin; curl https://getmic.ro | bash
+
 
 USER fabdev
 WORKDIR /home/fabdev
