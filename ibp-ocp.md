@@ -40,6 +40,12 @@ AIM: To run a pre-release IBP in an OpenShift Cluster
 >
 > api.nx01.cp.fyre.ibm.com
 
+```
+export OCP_ACCESS_URL=$(cat .env | jq -r .access_url | sed -e s/console-openshift-console.apps/api/  -e s/$/:6443/)
+export OCP_PASSWORD=$(cat .env | jq -r .kubeadmin_password)
+oc login ${OCP_ACCESS_URL} --username=kubeadmin --password=${OCP_PASSWORD} --insecure-skip-tls-verify=true
+````
+
 ## Local Environment
 
 You need a local environment setup with all the prereqs. If you're the preqeqs locally, great. Or use this docker image
