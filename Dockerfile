@@ -6,9 +6,7 @@ FROM ibmcom/pipeline-base-image:2.11
 RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install build-essential gcc gzip \
-                  python3.8 python3-distutils libpython3.8-dev software-properties-common \
-    # && apt-add-repository --yes --update ppa:ansible/ansible \
-    # && apt-get -y install ansible \              
+                  python3.8 python3-distutils libpython3.8-dev software-properties-common \       
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -35,7 +33,7 @@ ENV GOPATH=/tmp/go
 # Python & Ansible
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python3.8 get-pip.py  \
-    && pip3.8 install  "ansible>=2.9,<2.10" fabric-sdk-py python-pkcs11 openshift \
+    && pip3.8 install  "ansible>=2.9,<2.10" fabric-sdk-py python-pkcs11 openshift semantic_version\
     && ansible --version \
     && ansible-galaxy collection install ibm.blockchain_platform -f
 
