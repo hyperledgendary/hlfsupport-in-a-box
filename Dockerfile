@@ -29,6 +29,7 @@ ENV GOROOT=/opt/go
 ENV GOCACHE=/tmp/gocache
 ENV GOENV=/tmp/goenv
 ENV GOPATH=/tmp/go
+ENV PATH=/opt/go/bin:${PATH}
 
 # Python & Ansible
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
