@@ -78,3 +78,6 @@ RUN mkdir /artifacts/.terraform.d \
    && mkdir /artifacts/.terraform.d/plugins \
    && curl -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.20.0/linux_amd64.zip --output /artifacts/.terraform.d/plugins/terraform_p.zip \
    && unzip /artifacts/.terraform.d/plugins/terraform_p.zip -d /artifacts/.terraform.d/plugins
+
+# IBM Cloud CLI
+RUN curl -sL https://raw.githubusercontent.com/IBM-Cloud/ibm-cloud-developer-tools/master/linux-installer/idt-installer | bash
