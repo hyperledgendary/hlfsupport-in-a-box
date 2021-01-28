@@ -73,7 +73,7 @@ COPY setup_storageclasses.sh /opt/fabric/bin/
 
 # IBM Terraform provider binary v1.2 (https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.20.0/terraform-provider-ibm_1.20.0_linux_amd64.zip)
 RUN mkdir /root/.terraform.d/plugins \
-   && curl -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.20.0/linux_amd64.zip --output /root/.terraform.d/plugins/terraform_p.zip \
+   && curl -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.20.1/linux_amd64.zip --output /root/.terraform.d/plugins/terraform_p.zip \
    && unzip /root/.terraform.d/plugins/terraform_p.zip -d /root/.terraform.d/plugins
 
 # IBM Cloud CLI
