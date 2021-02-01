@@ -108,9 +108,9 @@ metadata:
 spec:
   params:
     - name: repository
-      value: "https://github.ibm.com/ibp/marvin-container"
+      value: "https://github.ibm.com/Kestutis-Gudynas/marvin-container"
     - name: branch
-      value: "main"
+      value: "pipeline"
     - name: triggerName
       value: manual-trigger
 ---
