@@ -117,7 +117,8 @@ spec:
           operator: in
           values: ["git-pr-process", "github-pullrequest", "github-commit"]
       runAfter:
-        - pipeline-build-task
+        - pipeline-2-containerize-task
+      errorStrategy: SkipOnPriorTaskErrors
       taskRef:
         name: git-set-commit-status
       workspaces:
@@ -136,6 +137,25 @@ spec:
           value: success
         - name: pipeline-debug
           value: $(params.pipeline-debug)
+
+    - name: pipeline-3-va-task
+      runAfter:
+        - pipeline-2-containerize-task
+      errorStrategy: SkipOnPriorTaskErrors
+      taskRef:
+        name: icr-check-va-scan
+      params:
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: artifacts
+          workspace: pipeline-ws
+      resources:
+        inputs:
+          - name: image
+            resource: app-image
+            from:
+              - pipeline-2-containerize-task
 
   # ---------------------------------------------------------------------------------
   # Set of tasks to run at the end of every build irrespective of what has happened
