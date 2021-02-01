@@ -27,6 +27,7 @@ spec:
       args: 
         - |
           echo "Starting building the docker image....."
+          dockerd > /dev/null 2>&1 &
           docker build  -t marvin-container .
           retval=$?
            if [ $retval -ne 0 ]; then 

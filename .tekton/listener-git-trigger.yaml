@@ -32,7 +32,9 @@ spec:
     - name: pipeline-debug
       default: "0"
     - name: ghe
-      description: ghe config        
+      description: ghe config
+    - name: webhook-secret
+      description: webhook for slack
   resourcetemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
@@ -51,7 +53,7 @@ spec:
     #     .dockerconfigjson: $(params.dockerconfigjson)
     #   metadata:
     #     name: docker-pull-secret
-    #   type: kubernetes.io/dockerconfigjson          
+    #   type: kubernetes.io/dockerconfigjson
     # - apiVersion: v1
     #   kind: ServiceAccount
     #   imagePullSecrets:
@@ -89,8 +91,10 @@ spec:
           - name: triggerName
             value: $(params.triggerName)
           - name: ghe
-            value: $(params.ghe)                         
-        # serviceAccountName: sa-pullsecret 
+            value: $(params.ghe)
+          - name: webhook-secret
+            value: $(params.webhook-secret)
+        # serviceAccountName: sa-pullsecret
         workspaces:
           - name: code
             subPath: code
@@ -106,9 +110,9 @@ spec:
     - name: repository
       value: "https://github.ibm.com/ibp/marvin-container"
     - name: branch
-      value: "master"
+      value: "main"
     - name: triggerName
-      value: manual-trigger    
+      value: manual-trigger
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -168,7 +172,7 @@ spec:
       template:
         name: triggertemplate-git-trigger
 ---
-# Manual trigger of the build - will run off master branch
+# Manual trigger of the build - will run off main branch
 apiVersion: tekton.dev/v1beta1
 kind: EventListener
 metadata:

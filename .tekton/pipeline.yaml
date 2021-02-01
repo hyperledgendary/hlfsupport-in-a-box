@@ -40,7 +40,7 @@ spec:
   workspaces:
     - name: code
   tasks:
-    # Git tasks at: https://github.com/open-toolchain/tekton-catalog/tree/master/git
+    # Git tasks at: https://github.com/open-toolchain/tekton-catalog/tree//git
     # only do the commit status when using a PR related trigger
     - name: set-pipeline-commit-status
       when:
@@ -93,17 +93,17 @@ spec:
         - name: output
           workspace: code
     
-    # - name: pipeline-build-task
-    #   taskRef:
-    #     name: build-task
-    #   runAfter:
-    #     - fetch-from-git
-    #   params:
-    #     - name: directory-name
-    #       value: "."
-    #   workspaces:
-    #     - name: code
-    #       workspace: code
+    - name: pipeline-build-task
+      taskRef:
+        name: build-task
+      runAfter:
+        - fetch-from-git
+      params:
+        - name: directory-name
+          value: "."
+      workspaces:
+        - name: code
+          workspace: code
 
     # - name: pipeline-push-task
     #   taskRef:
