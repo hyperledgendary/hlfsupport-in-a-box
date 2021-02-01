@@ -92,7 +92,22 @@ spec:
       workspaces:
         - name: output
           workspace: code
-    
+
+    - name: pipeline-2-containerize-task
+      runAfter: [fetch-from-git]
+      taskRef:
+        name: icr-containerize
+      params:
+        - name: additional-tags
+          value: "latest"
+        - name: image-url
+          value: uk.icr.io/marvin/marvin-container:4
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: source
+          workspace: code
+
     - name: pipeline-build-task
       taskRef:
         name: build-task
