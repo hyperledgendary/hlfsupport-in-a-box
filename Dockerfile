@@ -71,13 +71,13 @@ RUN cd /usr/local/bin; curl https://getmic.ro | bash \
 COPY create_playbooks.sh /opt/fabric/bin/ 
 COPY setup_storageclasses.sh /opt/fabric/bin/
 
-WORKDIR /artifacts
-
 # IBM Terraform provider binary v1.2 (https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.20.0/terraform-provider-ibm_1.20.0_linux_amd64.zip)
-RUN mkdir /artifacts/.terraform.d \
-   && mkdir /artifacts/.terraform.d/plugins \
-   && curl -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.20.0/linux_amd64.zip --output /artifacts/.terraform.d/plugins/terraform_p.zip \
-   && unzip /artifacts/.terraform.d/plugins/terraform_p.zip -d /artifacts/.terraform.d/plugins
+RUN mkdir /root/.terraform.d/plugins \
+   && curl -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.20.1/linux_amd64.zip --output /root/.terraform.d/plugins/terraform_p.zip \
+   && unzip /root/.terraform.d/plugins/terraform_p.zip -d /root/.terraform.d/plugins
 
 # IBM Cloud CLI
 RUN curl -sL https://raw.githubusercontent.com/IBM-Cloud/ibm-cloud-developer-tools/master/linux-installer/idt-installer | bash
+
+WORKDIR /artifacts
+

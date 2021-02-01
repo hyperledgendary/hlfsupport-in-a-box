@@ -19,7 +19,7 @@ This is pushed to a private registry in IBM Cloud under the 'Blockchain Brokers'
 This is the account that Marvin itself is run under. Therefore when new images are pushed, these should be done in the
 context of this registry.  Tag the image correctly before pushing it to the registry.
 
-Please ensure that you're logged in via the IBMCloud CLI to ensure you have the correct access
+Please ensure that you're logged in via the IBMCloud CLI to ensure you have the correct access; follow the guide [here](https://cloud.ibm.com/docs/Registry?topic=Registry-getting-started)
 
 ```
 docker tag marvin-container:latest uk.icr.io/marvin/marvin-container:3
@@ -29,7 +29,7 @@ docker push uk.icr.io/marvin/marvin-container:3
 To run the container manually to work with either Marvin or other tests remember to pass a `.env` file with properties. This is using the name from a local build. If you've not built this locally, replace with the full registry name as above. 
 
 ```
- docker run -it -v ${PWD}:/artifacts --env-file .env marvin-container
+ docker run -it -v ${PWD}:/artifacts --env-file .env --name marvin-container -t marvin-container:latest
 ```
 
 (aside to login in using the IBM Cloud, the following should be sufficient  `ibmcloud login --sso` choose the Blockchain Brokers account, and then target the 'development' resource group. `ibmcloud target -g Development`)
