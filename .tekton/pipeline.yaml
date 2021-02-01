@@ -1,0 +1,168 @@
+# Main Pipeline for building and testing
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline
+spec:
+  params:
+    - name: repository
+      description: the git repo
+    - name: branch
+      description: the branch for the git repo
+    - name: webhook-secret
+      description: webhook for slack
+    - name: revision
+      description: the commit id/sha for the clone action
+      default: ""
+    - name: pr-repository
+      description: The source git repo for the PullRequest
+      default: ""
+    - name: pr-branch
+      description: The source branch for the PullRequest
+      default: ""
+    - name: pr-revision
+      description: the commit id/sha for the PullRequest
+      default: ""
+    - name: properties-file
+      default: "output/thebuild.properties"
+    - name: git-credentials-json-file
+      default: "output/secrets/thecredentials.json"
+    - name: pipeline-debug
+      default: "0"
+    - name: ghe
+      description: ghe config
+    - name: ibp-access-token
+      description: ibp-access-token
+    - name: ibp-endpoint
+      description: ibp-endpoint
+    - name: triggerName
+      description: Trigger name
+  workspaces:
+    - name: code
+  tasks:
+    # Git tasks at: https://github.com/open-toolchain/tekton-catalog/tree/master/git
+    # only do the commit status when using a PR related trigger
+    - name: set-pipeline-commit-status
+      when:
+        - input: $(params.triggerName)
+          operator: in
+          values: ["git-pr-process", "github-pullrequest", "github-commit"] 
+      taskRef:
+        name: git-set-commit-status
+      workspaces:
+        - name: artifacts
+          workspace: code
+      params:
+        - name: repository
+          value: $(params.repository)
+        - name: revision
+          value: $(params.pr-revision)
+        - name: description
+          value: "Marvin-container"
+        - name: state
+          value: running
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+        - name: context
+          value: WholePipeline
+    - name: fetch-from-git
+      taskRef:
+        name: git-clone-repo
+      params:
+        - name: repository
+          value: $(params.repository)
+        - name: branch
+          value: $(params.branch)
+        - name: revision
+          value: $(params.revision)
+        - name: pr-repository
+          value: $(params.pr-repository)
+        - name: pr-branch
+          value: $(params.pr-branch)
+        - name: pr-revision
+          value: $(params.pr-revision)
+        - name: directory-name
+          value: "."
+        - name: properties-file
+          value: $(params.properties-file)
+        - name: git-credentials-json-file
+          value: $(params.git-credentials-json-file)
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+      workspaces:
+        - name: output
+          workspace: code
+    
+    - name: pipeline-build-task
+      taskRef:
+        name: build-task
+      runAfter:
+        - fetch-from-git
+      params:
+        - name: directory-name
+          value: "."
+      workspaces:
+        - name: code
+          workspace: code
+
+    - name: pipeline-push-task
+      taskRef:
+        name: push-task
+      runAfter:
+        - pipeline-build-task
+      params:
+        - name: directory-name
+          value: "."
+      workspaces:
+        - name: code
+          workspace: code
+
+    - name: set-commit-status-build-end
+      when:
+        - input: $(params.triggerName)
+          operator: in
+          values: ["git-pr-process", "github-pullrequest", "github-commit"]
+      runAfter:
+        - pipeline-build-task
+      taskRef:
+        name: git-set-commit-status
+      workspaces:
+        - name: artifacts
+          workspace: code
+      params:
+        - name: repository
+          value: $(params.repository)
+        - name: revision
+          value: $(params.pr-revision)
+        - name: description
+          value: "Marvin-container"
+        - name: context
+          value: Build
+        - name: state
+          value: success
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)
+
+  # ---------------------------------------------------------------------------------
+  # Set of tasks to run at the end of every build irrespective of what has happened
+  finally:
+    # Set the PR commit status to likewise indicate the commit is ending
+    - name: set-commit-status-end-1
+      taskRef:
+        name: git-set-commit-status
+      workspaces:
+        - name: artifacts
+          workspace: code
+      params:
+        - name: repository
+          value: $(params.repository)
+        - name: revision
+          value: $(params.pr-revision)
+        - name: description
+          value: "Marvin-container"
+        - name: context
+          value: WholePipeline
+        - name: state
+          value: success
+        - name: pipeline-debug
+          value: $(params.pipeline-debug)

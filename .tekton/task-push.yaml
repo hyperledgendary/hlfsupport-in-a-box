@@ -1,0 +1,36 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: push-task
+spec:
+  params:
+    - name: directory-name
+      default: "."  
+  results:
+    - name: text
+      description: Human notification text      
+  workspaces:
+  - name: code
+    mountPath: /artifacts
+  steps:
+    - name: push
+      env:
+        - name: DIRECTORY_NAME
+          value: $(params.directory-name)
+        - name: WORKSPACE
+          value: $(workspaces.code.path)             
+      workingDir: /artifacts          
+      command: ["/bin/bash", "-c"]
+      args: 
+        - |
+          echo "Pushing the image to the registry....."
+          docker tag marvin-container:latest uk.icr.io/marvin/marvin-container:3
+          docker push uk.icr.io/marvin/marvin-container:3
+          retval=$?
+          if [ $retval -ne 0 ]; then 
+            echo "Marvin-container Push Failed :-(" >> $WORKSPACE/result
+          else
+            echo "Marvin-container Push Succesful :-)" >> $WORKSPACE/result
+          fi
+          echo "Completed pushing the image to the registry"
+          exit $retval
