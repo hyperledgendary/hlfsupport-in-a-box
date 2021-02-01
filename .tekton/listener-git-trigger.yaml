@@ -45,19 +45,19 @@ spec:
         volumeMode: Filesystem
         accessModes:
           - ReadWriteOnce
-    - apiVersion: v1
-      kind: Secret
-      data:
-        .dockerconfigjson: $(params.dockerconfigjson)
-      metadata:
-        name: docker-pull-secret
-      type: kubernetes.io/dockerconfigjson          
-    - apiVersion: v1
-      kind: ServiceAccount
-      imagePullSecrets:
-        - name: docker-pull-secret
-      metadata:
-        name: sa-pullsecret
+    # - apiVersion: v1
+    #   kind: Secret
+    #   data:
+    #     .dockerconfigjson: $(params.dockerconfigjson)
+    #   metadata:
+    #     name: docker-pull-secret
+    #   type: kubernetes.io/dockerconfigjson          
+    # - apiVersion: v1
+    #   kind: ServiceAccount
+    #   imagePullSecrets:
+    #     - name: docker-pull-secret
+    #   metadata:
+    #     name: sa-pullsecret
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
@@ -90,7 +90,7 @@ spec:
             value: $(params.triggerName)
           - name: ghe
             value: $(params.ghe)                         
-        serviceAccountName: sa-pullsecret 
+        # serviceAccountName: sa-pullsecret 
         workspaces:
           - name: code
             subPath: code

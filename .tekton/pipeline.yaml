@@ -93,29 +93,29 @@ spec:
         - name: output
           workspace: code
     
-    - name: pipeline-build-task
-      taskRef:
-        name: build-task
-      runAfter:
-        - fetch-from-git
-      params:
-        - name: directory-name
-          value: "."
-      workspaces:
-        - name: code
-          workspace: code
+    # - name: pipeline-build-task
+    #   taskRef:
+    #     name: build-task
+    #   runAfter:
+    #     - fetch-from-git
+    #   params:
+    #     - name: directory-name
+    #       value: "."
+    #   workspaces:
+    #     - name: code
+    #       workspace: code
 
-    - name: pipeline-push-task
-      taskRef:
-        name: push-task
-      runAfter:
-        - pipeline-build-task
-      params:
-        - name: directory-name
-          value: "."
-      workspaces:
-        - name: code
-          workspace: code
+    # - name: pipeline-push-task
+    #   taskRef:
+    #     name: push-task
+    #   runAfter:
+    #     - pipeline-build-task
+    #   params:
+    #     - name: directory-name
+    #       value: "."
+    #   workspaces:
+    #     - name: code
+    #       workspace: code
 
     - name: set-commit-status-build-end
       when:
