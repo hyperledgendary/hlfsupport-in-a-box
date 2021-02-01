@@ -16,6 +16,7 @@ spec:
     mountPath: /artifacts
   steps:
     - name: build
+      image: ibmcom/pipeline-base-image:2.11
       env:
         - name: DIRECTORY_NAME
           value: $(params.directory-name)
