@@ -54,7 +54,7 @@ spec:
         name: git-set-commit-status
       workspaces:
         - name: artifacts
-          workspace: code
+          workspace: pipeline-ws
       params:
         - name: repository
           value: $(params.repository)
