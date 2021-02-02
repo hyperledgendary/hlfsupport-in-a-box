@@ -110,6 +110,10 @@ spec:
       workspaces:
         - name: source
           workspace: code
+      resources:
+        outputs:
+          - name: built-image
+            resource: app-image
 
     - name: set-commit-status-build-end
       when:
@@ -148,7 +152,7 @@ spec:
         - name: pipeline-debug
           value: $(params.pipeline-debug)
       workspaces:
-        - name: artifacts
+        - name: artifactsVA
           workspace: pipeline-ws
       resources:
         inputs:
