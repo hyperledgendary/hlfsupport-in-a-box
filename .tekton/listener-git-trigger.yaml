@@ -36,6 +36,15 @@ spec:
     - name: webhook-secret
       description: webhook for slack
   resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineResource
+      metadata:
+        name: image-to-build
+      spec:
+        type: image
+        params:
+          - name: url
+            value: $(params.image-url)
     - apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
@@ -95,6 +104,10 @@ spec:
           - name: webhook-secret
             value: $(params.webhook-secret)
         # serviceAccountName: sa-pullsecret
+        resources:
+          - name: app-image
+            resourceRef:
+              name: image-to-build
         workspaces:
           - name: code
             subPath: code
@@ -108,9 +121,9 @@ metadata:
 spec:
   params:
     - name: repository
-      value: "https://github.ibm.com/Kestutis-Gudynas/marvin-container"
+      value: "https://github.ibm.com/ibp/marvin-container"
     - name: branch
-      value: "pipeline"
+      value: "main"
     - name: triggerName
       value: manual-trigger
 ---

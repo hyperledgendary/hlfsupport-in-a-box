@@ -41,7 +41,7 @@ spec:
     - name: app-image
       type: image
   workspaces:
-    - name: pipeline-ws
+    - name: code
   tasks:
     # Git tasks at: https://github.com/open-toolchain/tekton-catalog/tree//git
     # only do the commit status when using a PR related trigger
@@ -54,7 +54,7 @@ spec:
         name: git-set-commit-status
       workspaces:
         - name: artifacts
-          workspace: pipeline-ws
+          workspace: code
       params:
         - name: repository
           value: $(params.repository)
@@ -94,7 +94,7 @@ spec:
           value: $(params.pipeline-debug)
       workspaces:
         - name: output
-          workspace: pipeline-ws
+          workspace: code
 
     - name: pipeline-2-containerize-task
       runAfter: [fetch-from-git]
@@ -109,7 +109,7 @@ spec:
           value: $(params.pipeline-debug)
       workspaces:
         - name: source
-          workspace: pipeline-ws
+          workspace: code
       resources:
         outputs:
           - name: built-image
@@ -127,7 +127,7 @@ spec:
         name: git-set-commit-status
       workspaces:
         - name: artifacts
-          workspace: pipeline-ws
+          workspace: code
       params:
         - name: repository
           value: $(params.repository)
@@ -153,7 +153,7 @@ spec:
           value: $(params.pipeline-debug)
       workspaces:
         - name: artifacts
-          workspace: pipeline-ws
+          workspace: code
       resources:
         inputs:
           - name: image
@@ -170,7 +170,7 @@ spec:
         name: git-set-commit-status
       workspaces:
         - name: artifacts
-          workspace: pipeline-ws
+          workspace: code
       params:
         - name: repository
           value: $(params.repository)
