@@ -151,6 +151,8 @@ spec:
       params:
         - name: pipeline-debug
           value: $(params.pipeline-debug)
+        - name: image-url
+          value: uk.icr.io/marvin/marvin-container:4
       workspaces:
         - name: artifacts
           workspace: code
