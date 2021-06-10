@@ -50,12 +50,20 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
 
 # Node
 ENV NODE_VERSION 14.15.4
-RUN  export NVM_DIR="$HOME/.nvm" \
-     && . "$NVM_DIR/nvm.sh" \
-     && nvm install $NODE_VERSION \
-     && nvm alias default $NODE_VERSION \
-     && nvm use default \ 
-     && npm install --unsafe-perm -g @hyperledgendary/weftility@0.0.7
+RUN export NVM_DIR="$HOME/.nvm" \
+    && . "$NVM_DIR/nvm.sh" \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default \ 
+    && npm install --unsafe-perm -g @hyperledgendary/weftility@0.0.7
+
+ENV CHROME_SOURCE_URL=https://dl.google.com/dl/linux/direct/google-chrome-stable_current_amd64.deb
+RUN INSTALL_PATH=/tmp/$(basename $CHROME_SOURCE_URL) \
+    && apt-get update \
+    && apt-get install -y gconf-service libasound2 libatk1.0-0 libcairo2 libcups2 libfontconfig1 libgdk-pixbuf2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libxss1 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils \
+    && wget --no-verbose -O $INSTALL_PATH  $CHROME_SOURCE_URL \
+    && apt -y install $INSTALL_PATH \
+    && apt -y install xvfb
 
 # Fabric tooling
 RUN mkdir -p /opt/fabric \
