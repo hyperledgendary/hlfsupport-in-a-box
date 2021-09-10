@@ -1,0 +1,4 @@
+.env
+_cfg
+node_modules
+auth_vars.yml

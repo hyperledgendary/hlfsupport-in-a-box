@@ -1,0 +1,24 @@
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+---
+ca_admin_enrollment_id: admin
+ca_admin_enrollment_secret: adminpw
+organization_admin_enrollment_id: orderingorgadmin
+organization_admin_enrollment_secret: orderingorgadminpw
+ordering_service_enrollment_id: orderingorgorderer
+ordering_service_enrollment_secret: orderingorgordererpw
+ordering_service_msp: OrdererMSP
+ordering_service_nodes: 1
+wait_timeout: 600
+
+api_key: kcdXvuT6TMv57tWy
+api_endpoint: https://marvin-ibm-hlfsupport-console-console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud
+api_authtype: basic
+api_secret: cXsOHdyB7vczE4cSBskwdJ_afz2mEZ_c
+
+
+# api_key: koYszUQsm5Mza6aG
+# api_endpoint: https://marvin-ibm-hlfsupport-console-console.apps.nx01.cp.fyre.ibm.com
+# api_authtype: basic
+# api_secret: jBsiN1PVK9JcBGCGfUJJU4DYMMYgJy_k
