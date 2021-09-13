@@ -79,7 +79,7 @@ IBP_CONSOLE=$(kubectl get routes/ibm-hlfsupport-console-console --namespace marv
 # Basic auth passed here must match that in the generated ansible playbooks. You have been warned.
 AUTH=$(curl -X POST \
  https://$IBP_CONSOLE:443/ak/api/v2/permissions/keys \
- -u nobody@ibm.com:passw0rd \
+ -u nobody@ibm.com:new42day \
  -k \
  -H 'Content-Type: application/json' \
  -d '{
