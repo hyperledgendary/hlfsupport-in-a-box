@@ -2,6 +2,7 @@
 
 set -e -u -o pipefail
 ROOTDIR=$(cd "$(dirname "$0")" && pwd)
+IMAGE_NAME=ghcr.io/hyperledgendary/hlfsupport-in-a-box:main
 
 mkdir -p ${ROOTDIR}/_cfg
 
@@ -10,8 +11,8 @@ if [ ! -f .env ]; then
   exit 1
 fi
 
-docker run --env-file .env -it -v ${ROOTDIR}/_cfg:/workspace/_cfg hlfsupport-in-a-box console
-docker run --env-file .env -it -v ${ROOTDIR}/_cfg:/workspace/_cfg hlfsupport-in-a-box network
+docker run --env-file .env -it -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} console
+docker run --env-file .env -it -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} network
 
 echo 
 echo -----------------------------------------------------------------------------------------------------
