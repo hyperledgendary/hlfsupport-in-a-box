@@ -1,45 +1,58 @@
-# Marvin Container
+# HLF-Support-In-A-Box
 
-This is an IBP Development and Build focused container. Intended for use with the Tekton Pipeline for the Marvin test system. It's second use case is for interactive testing similar to Marvin for example with setting up fyre hosted ocp clusters.
+A single docker image with the Ansible and configuration scripts required to setup the HLFSupport images in an Open Shift Cluster
+along with a test Fabric network for 2 organizations.
 
-It is an extension of the open source hyperledgerary/warp-image 
+Everything is contained within a single docker image; this needs a configuration file to point to the cluster, and give credentials.
+A local directory can also be mapped that will contain connection information for applications etc. 
 
-**warp** /wɔːp/ _noun_ 
-(in weaving) the threads on a loom over and under which other threads (the weft) are passed to make cloth.
+## Requirements
 
-## Notes on the building and using of the container
+- a provisioned openshift cluster
+- entitlement credentials for the HLFSupport images
+- Docker or podman installed locally
+  
+- Also create a new empty directory to work in. 
+## Configuration
 
-The build of the container is straight-forward
+A `.env` file needs to be created that contains the details of the provisioned OpenShift Cluster, along with 
+credentials to the docker registry with the images.
 
-```
-docker build  -t marvin-container .
-```
-
-This is pushed to a private registry in IBM Cloud under the 'Blockchain Brokers' Account: `uk.icr.io/marvin`
-This is the account that Marvin itself is run under. Therefore when new images are pushed, these should be done in the
-context of this registry.  Tag the image correctly before pushing it to the registry.
-
-Please ensure that you're logged in via the IBMCloud CLI to ensure you have the correct access; follow the guide [here](https://cloud.ibm.com/docs/Registry?topic=Registry-getting-started)
-
-```
-docker tag marvin-container:latest uk.icr.io/marvin/marvin-container:3
-docker push uk.icr.io/marvin/marvin-container:3
-```
-
-To run the container manually to work with either Marvin or other tests remember to pass a `.env` file with properties. This is using the name from a local build. If you've not built this locally, replace with the full registry name as above. 
+A sample `.env` would be
 
 ```
- docker run -it -v ${PWD}:/artifacts --env-file .env --name marvin-container -t marvin-container:latest
+OCP_TOKEN_SERVER=https://xxxxxxx:99999
+OCP_TOKEN=sha256~<token>7rsaZNbfsJH5wkGQw-xuBUjmlklWTF1yovp3kOBrRdw
+CONSOLE_DOMAIN=<domain console will be at - the ingress domain>
+
+DOCKER_PW=<password>
+DOCKER_USERNAME=<username>
+DOCKER_REPOSITORY=<repository>
+
 ```
 
-(aside to login in using the IBM Cloud, the following should be sufficient  `ibmcloud login --sso` choose the Blockchain Brokers account, and then target the 'development' resource group. `ibmcloud target -g Development`)
+Create the .env file in the new empty directory
 
-## Accessing the docker image from a Tekton Pipeline
-To access the docker registry from the Tekton Pipelines, a specified secret needs to be provided. This requires an API_KEY from IBM Cloud. 
-This then needs to be converted into K8S secret JSON file
-
-```
-kubectl create secret docker-registry icr-secret-util --dry-run=true --docker-server="uk.icr.io" --docker-password=${API_KEY} --docker-username=iamapikey --docker-email=a@b.com --output='json'
+```bash
+mkdir hlf && cd hlf
+touch .env
+# and edit
 ```
 
-And then get the contents of the `.dockerconfigjson` option - and put this into a secret to to be used in the pipeline.
+## Running
+
+- Get the 'unbox.sh' script... this has the docker run commands in it to save typing
+
+```
+curl -sSL https://raw.githubusercontent.com/hyperledgendary/hlfsupport-in-a-box/main/unbox.sh -o unbox.sh && chmod +x unbox.sh
+```
+
+- Run the unbox script
+
+```bash
+./unbox.sh
+```
+
+The process will take about 10 minutes depending on network speeds etc.
+
+When complete, a message will be printed with where the Console is running, and the local `_cfg` directory will contain configuration files to help connect applications.
