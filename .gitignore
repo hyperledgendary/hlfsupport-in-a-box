@@ -2,3 +2,5 @@
 _cfg
 node_modules
 auth_vars.yml
+cc_vars.yml
+latest*.yml

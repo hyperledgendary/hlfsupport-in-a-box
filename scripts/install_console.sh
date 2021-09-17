@@ -21,8 +21,11 @@ ROOTDIR=$(cd "$(dirname "$0")/.." && pwd)
 
 # defensively define some defaults
 : ${DEBUG:=0}
-: ${PRODUCTION_DOCKER_IMAGES:=0}
+: ${PRODUCTION_DOCKER_IMAGES:=1}
 : ${PRODUCT_VERSION:=1.0.0}
+: ${OCP_TOKEN:=""}
+: ${CONSOLE_PASSWORD:="new42day"}
+: ${PROJECT_NAME_VALUE:="hlf-network"}
 ###
 # Ansible playbook installation of CRD and Operator/Console
 ###
@@ -33,7 +36,6 @@ if [ -z $OCP_TOKEN ]; then
   # pasword and user id login
   # OCP_PASSWORD=$(jq -r '.clusters[0].kubeadmin_password' "$ROOT_DIR/fyre/ocpdetails.json")
   oc login ${OCP_URL} --password ${OCP_PASSWORD} --username ${OCP_USERNAME} --insecure-skip-tls-verify=true
-  export CLUSTER_INGRESS_HOSTNAME=apps.${FYRE_OCP_NAME:=nx02}.cp.fyre.ibm.com
 else
   oc login --token=${OCP_TOKEN} --server=${OCP_TOKEN_SERVER}
 fi
@@ -41,9 +43,7 @@ fi
 # Gererate playbooks (latest-crds.yml, latest-console.yml)
 echo "Generating Ansible playbooks"
 if [ $PRODUCTION_DOCKER_IMAGES == "1" ]; then
-echo "not yet ready"
-exit 1
- #./generate_prod_playbooks.sh	
+	$ROOTDIR/scripts/generate_hlfsupport_playbooks.sh
 else
 	$ROOTDIR/scripts/generate_hlfsupport_dev_playbooks.sh
 fi
@@ -53,7 +53,7 @@ fi
 echo "Installing IBP Custom Resource Definition and Console"
 
 # Provide logs on any problems regardless of whether debug is 0 or 1.
-export IBP_ANSIBLE_LOG_FILENAME=ansible_debug.log
+export IBP_ANSIBLE_LOG_FILENAME=ansible_console_debug.log
 
 if [ $DEBUG == "0" ]; then
   ansible-playbook $ROOTDIR/playbooks/latest-crds.yml
@@ -73,13 +73,13 @@ echo "Generating authentication vars for new console"
 #   echo "not yet supported"
 #   exit 1
 # else
-IBP_CONSOLE=$(kubectl get routes/ibm-hlfsupport-console-console --namespace marvin -o=json | jq .spec.host | tr -d '"')
+IBP_CONSOLE=$(kubectl get routes/ibm-hlfsupport-console-console --namespace ${PROJECT_NAME_VALUE} -o=json | jq .spec.host | tr -d '"')
 # fi
 
 # Basic auth passed here must match that in the generated ansible playbooks. You have been warned.
 AUTH=$(curl -X POST \
  https://$IBP_CONSOLE:443/ak/api/v2/permissions/keys \
- -u nobody@ibm.com:new42day \
+ -u nobody@ibm.com:${CONSOLE_PASSWORD} \
  -k \
  -H 'Content-Type: application/json' \
  -d '{
