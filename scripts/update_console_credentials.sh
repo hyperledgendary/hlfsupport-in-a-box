@@ -7,7 +7,7 @@ ROOTDIR=$(cd "$(dirname "$0")/.." && pwd)
 
 # Build authentication variables required for the new Console (must change default password)
 echo "Generating authentication vars for new console"
-IBP_CONSOLE=$(kubectl get routes/ibm-hlfsupport-console-console --namespace ${PROJECT_NAME_VALUE} -o=json | jq .spec.host | tr -d '"')
+#IBP_CONSOLE=$(kubectl get routes/ibm-hlfsupport-console-console --namespace ${PROJECT_NAME_VALUE} -o=json | jq .spec.host | tr -d '"')
 
 
 # Basic auth passed here must match that in the generated ansible playbooks. You have been warned.

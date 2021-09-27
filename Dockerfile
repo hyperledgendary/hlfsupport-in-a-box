@@ -46,9 +46,9 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && ansible --version 
 
 RUN mkdir -p /workspace \
-    && git clone -b 1.1.0-beta https://github.com/IBM-Blockchain/ansible-collection.git /workspace/ansible-collection \
+    && git clone -b main https://github.com/IBM-Blockchain/ansible-collection.git /workspace/ansible-collection \
     && ansible-galaxy collection build /workspace/ansible-collection \
-    && ansible-galaxy collection install /ibm-blockchain_platform-1.1.0-beta.tar.gz -f
+    && ansible-galaxy collection install /ibm-blockchain_platform-1.1.0.tar.gz -f
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
 

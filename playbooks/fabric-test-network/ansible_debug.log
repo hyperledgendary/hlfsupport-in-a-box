@@ -1,0 +1,333 @@
+2021-09-27 14:48:07,992 - ibm.blockchain_platform.registered_identity - DEBUG - {
+    "msg": "attempting to get console health",
+    "url": "https://console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud/ak/api/v2/health",
+    "attempt": 1,
+    "caller": "/tmp/ansible_ibm.blockchain_platform.registered_identity_payload_h_9mn7cf/ansible_ibm.blockchain_platform.registered_identity_payload.zip/ansible_collections/ibm/blockchain_platform/plugins/module_utils/consoles.py:118"
+}
+2021-09-27 14:48:08,190 - ibm.blockchain_platform.registered_identity - DEBUG - {
+    "msg": "got console health",
+    "health": {
+        "OPTOOLS": {
+            "born": 1632475153847,
+            "couch_cache_stats": {
+                "cache_size": "670.00 Bytes",
+                "hits": 0,
+                "keys": 1,
+                "misses": 3
+            },
+            "iam_cache_stats": null,
+            "instance_id": "f35cb",
+            "memory_usage": {
+                "arrayBuffers": "180.28 KiB",
+                "external": "1.56 MiB",
+                "heapTotal": "36.63 MiB",
+                "heapUsed": "29.22 MiB",
+                "rss": "97.64 MiB"
+            },
+            "now": 1632754088235,
+            "proxy_cache": {
+                "cache_size": "0 Bytes",
+                "hits": 0,
+                "keys": 0,
+                "misses": 3
+            },
+            "session_cache_stats": {
+                "cache_size": "0 Bytes",
+                "hits": 25,
+                "keys": 0,
+                "misses": 6
+            },
+            "up_time": "3.2 days"
+        },
+        "OS": {
+            "arch": "x64",
+            "cpus": [
+                {
+                    "model": "Intel(R) Xeon(R) Gold 6248 CPU @ 2.50GHz",
+                    "speed": 2494,
+                    "times": {
+                        "idle": 1372076180,
+                        "irq": 0,
+                        "nice": 218930,
+                        "sys": 71123290,
+                        "user": 134217190
+                    }
+                },
+                {
+                    "model": "Intel(R) Xeon(R) Gold 6248 CPU @ 2.50GHz",
+                    "speed": 2494,
+                    "times": {
+                        "idle": 1336043100,
+                        "irq": 0,
+                        "nice": 211850,
+                        "sys": 75764770,
+                        "user": 150895070
+                    }
+                },
+                {
+                    "model": "Intel(R) Xeon(R) Gold 6248 CPU @ 2.50GHz",
+                    "speed": 2494,
+                    "times": {
+                        "idle": 1341062490,
+                        "irq": 0,
+                        "nice": 215600,
+                        "sys": 77486190,
+                        "user": 154519960
+                    }
+                },
+                {
+                    "model": "Intel(R) Xeon(R) Gold 6248 CPU @ 2.50GHz",
+                    "speed": 2494,
+                    "times": {
+                        "idle": 1349994900,
+                        "irq": 0,
+                        "nice": 202320,
+                        "sys": 74711810,
+                        "user": 145840270
+                    }
+                }
+            ],
+            "endian": "LE",
+            "free_memory": "216.47 MiB",
+            "loadavg": [
+                0.32080078125,
+                1.36767578125,
+                1.8525390625
+            ],
+            "total_memory": "15.50 GiB",
+            "type": "Linux",
+            "up_time": "19.3 days"
+        }
+    },
+    "caller": "/tmp/ansible_ibm.blockchain_platform.registered_identity_payload_h_9mn7cf/ansible_ibm.blockchain_platform.registered_identity_payload.zip/ansible_collections/ibm/blockchain_platform/plugins/module_utils/consoles.py:121"
+}
+2021-09-27 14:48:08,194 - ibm.blockchain_platform.registered_identity - DEBUG - {
+    "msg": "attempting to get console settings",
+    "url": "https://console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud/ak/api/v2/settings",
+    "attempt": 1,
+    "caller": "/tmp/ansible_ibm.blockchain_platform.registered_identity_payload_h_9mn7cf/ansible_ibm.blockchain_platform.registered_identity_payload.zip/ansible_collections/ibm/blockchain_platform/plugins/module_utils/consoles.py:138"
+}
+2021-09-27 14:48:08,248 - ibm.blockchain_platform.registered_identity - DEBUG - {
+    "msg": "got console settings",
+    "settings": {
+        "ACTIVITY_TRACKER_PATH": "?",
+        "ATHENA_ID": "f35cb",
+        "AUTH_SCHEME": "couchdb",
+        "CALLBACK_URI": "/auth/cb",
+        "CLUSTER_DATA": {
+            "type": "paid"
+        },
+        "CONFIGTXLATOR_URL": "https://hlf-network-ibm-hlfsupport-console-console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud:443/configtxlator",
+        "CRN": {
+            "c_name": "bluemix",
+            "c_type": "public",
+            "instance_id": "-",
+            "service_name": "blockchain",
+            "version": "v1"
+        },
+        "CRN_STRING": "crn:v1:bluemix:public:blockchain:undefined:undefined:-::",
+        "CSP_HEADER_VALUES": [
+            "connect-src *",
+            "default-src *.medallia.eu",
+            "font-src 'self' *.s81c.com fonts.gstatic.com",
+            "frame-ancestors 'none'",
+            "img-src 'self' *.ibm.com appboy-images.com *.medallia.eu",
+            "script-src 'self' 'unsafe-eval' 'unsafe-inline' *.ibm.com api.segment.com cdn.segment.com console.bluemix.net *.braze.com lpcdn.lpsnmedia.net *.liveperson.net *.medallia.eu *.kampyle.com",
+            "style-src 'self' 'unsafe-inline' *.ibm.com *.medallia.eu"
+        ],
+        "DB_SYSTEM": "athena-system",
+        "DEPLOYER_URL": "http://localhost:8080",
+        "DISABLED_COMPACTION": true,
+        "DOMAIN": "hlf-network-ibm-hlfsupport-console-console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud",
+        "ENVIRONMENT": "prod",
+        "FABRIC_CAPABILITIES": {
+            "application": [
+                "V1_1",
+                "V1_2",
+                "V1_3",
+                "V1_4_2",
+                "V2_0"
+            ],
+            "channel": [
+                "V1_3",
+                "V1_4_2",
+                "V1_4_3",
+                "V2_0"
+            ],
+            "orderer": [
+                "V1_1",
+                "V1_4_2",
+                "V2_0"
+            ]
+        },
+        "FEATURE_FLAGS": {
+            "capabilities_enabled": true,
+            "create_channel_enabled": true,
+            "enable_ou_identifier": true,
+            "high_availability": true,
+            "hsm_enabled": true,
+            "import_only_enabled": false,
+            "infra_import_options": {
+                "supported_cas": [
+                    "ibmcloud",
+                    "icp",
+                    "kubernetes",
+                    "openshift"
+                ],
+                "supported_orderers": [
+                    "ibmcloud",
+                    "icp",
+                    "kubernetes",
+                    "openshift"
+                ],
+                "supported_peers": [
+                    "ibmcloud",
+                    "icp",
+                    "kubernetes",
+                    "openshift"
+                ]
+            },
+            "lifecycle2_0_enabled": true,
+            "mustgather_enabled": true,
+            "patch_1_4to2_x_enabled": true,
+            "remote_peer_config_enabled": true,
+            "saas_enabled": true,
+            "scale_raft_nodes_enabled": true,
+            "templates_enabled": false
+        },
+        "FILE_LOGGING": {
+            "client": {
+                "enabled": false,
+                "file_name": "client.log",
+                "level": "info",
+                "path": "/home/athena/logs"
+            },
+            "server": {
+                "enabled": true,
+                "file_name": "server.log",
+                "level": "silly",
+                "path": "/home/athena/logs"
+            }
+        },
+        "HOST_URL": "https://hlf-network-ibm-hlfsupport-console-console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud:443",
+        "HSM": "",
+        "IAM_CACHE_ENABLED": false,
+        "IAM_URL": "?",
+        "IBM_ID_CALLBACK_URL": "https://hlf-network-ibm-hlfsupport-console-console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud:443/auth/login",
+        "IBM_ID_URL": "https://iam.cloud.ibm.com/identity/.well-known/openid-configuration",
+        "IGNORE_CONFIG_FILE": false,
+        "IMPORT_ONLY": false,
+        "INACTIVITY_TIMEOUTS": {
+            "enabled": false,
+            "max_idle_time": 900000
+        },
+        "INFRASTRUCTURE": "openshift",
+        "LANDING_URL": "https://hlf-network-ibm-hlfsupport-console-console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud:443",
+        "LDAP": {
+            "GROUP_SEARCH_BASE": "?",
+            "LDAP_ATTR_MAP": "?",
+            "LDAP_GROUP_MAP": "?",
+            "SEARCH_BASE": "?"
+        },
+        "LOGIN_URI": "/auth/login",
+        "LOGOUT_URI": "/auth/logout",
+        "MAX_COMPONENTS": 250,
+        "MAX_REQ_PER_MIN": 25,
+        "MAX_REQ_PER_MIN_AK": 25,
+        "MEMORY_CACHE_ENABLED": true,
+        "PORT": 3000,
+        "PROXY_CACHE_ENABLED": true,
+        "PROXY_TLS_FABRIC_REQS": "always",
+        "PROXY_TLS_HTTP_URL": "https://hlf-network-ibm-hlfsupport-console-console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud:443",
+        "PROXY_TLS_WS_URL": "https://hlf-network-ibm-hlfsupport-console-console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud:443",
+        "REGION": "prod",
+        "SESSION_CACHE_ENABLED": true,
+        "THE_DEFAULT_RESOURCES_MAP": {
+            "ca": {
+                "cpu": "100m",
+                "memory": "200Mi",
+                "storage": "20Gi"
+            },
+            "chaincodelauncher": {
+                "cpu": "200m",
+                "memory": "400Mi"
+            },
+            "couchdb": {
+                "cpu": "200m",
+                "memory": "400Mi",
+                "storage": "100Gi"
+            },
+            "dind": {
+                "cpu": "500m",
+                "memory": "1000Mi"
+            },
+            "fluentd": {
+                "cpu": "100m",
+                "memory": "200Mi"
+            },
+            "leveldb": {
+                "cpu": "100m",
+                "memory": "200Mi",
+                "storage": "100Gi"
+            },
+            "orderer": {
+                "cpu": "250m",
+                "memory": "500Mi",
+                "storage": "100Gi"
+            },
+            "peer": {
+                "cpu": "200m",
+                "memory": "400Mi",
+                "storage": "100Gi"
+            },
+            "proxy": {
+                "cpu": "100m",
+                "memory": "200Mi"
+            }
+        },
+        "TIMEOUTS": {
+            "BACKEND_ADDRESS_TIMEOUT": 3000,
+            "CLIENT": {
+                "FABRIC_GENERAL_TIMEOUT_MS": 10000,
+                "FABRIC_GET_BLOCK_TIMEOUT_MS": 10000,
+                "FABRIC_INSTALL_CC_TIMEOUT_MS": 300000,
+                "FABRIC_INSTANTIATE_TIMEOUT_MS": 300000,
+                "FABRIC_JOIN_CHANNEL_TIMEOUT_MS": 25000,
+                "FABRIC_LC_GET_CC_TIMEOUT_MS": 180000,
+                "FABRIC_LC_INSTALL_CC_TIMEOUT_MS": 300000
+            },
+            "CONFIGTXLATOR_TIMEOUT": 90000,
+            "DEPLOYER_TIMEOUT": 60000,
+            "GRPCWPP_TIMEOUT": 300000,
+            "HTTP_TIMEOUT": 120000,
+            "WS_TIMEOUT": 120000
+        },
+        "TIMESTAMPS": {
+            "born": 1632475153847,
+            "next_settings_update": "12.1 mins",
+            "now": 1632754088298,
+            "up_time": "3.2 days"
+        },
+        "TRANSACTION_VISIBILITY": {},
+        "TRUST_PROXY": "loopback, linklocal, uniquelocal",
+        "TRUST_UNKNOWN_CERTS": false,
+        "VERSIONS": {
+            "apollo": "29b0a88f",
+            "athena": "4d6a979",
+            "stitch": "70b468e",
+            "tag": "v2.5.2-92"
+        }
+    },
+    "caller": "/tmp/ansible_ibm.blockchain_platform.registered_identity_payload_h_9mn7cf/ansible_ibm.blockchain_platform.registered_identity_payload.zip/ansible_collections/ibm/blockchain_platform/plugins/module_utils/consoles.py:141"
+}
+2021-09-27 14:48:08,252 - ibm.blockchain_platform.registered_identity - DEBUG - {
+    "msg": "attempting to get all components",
+    "url": "https://console.mycluster-lon05-b3-336206-dc6f55db2bd19fe679c44828d91f16b3-0000.eu-gb.containers.appdomain.cloud/ak/api/v2/components?deployment_attrs=omitted&cache=skip",
+    "attempt": 1,
+    "caller": "/tmp/ansible_ibm.blockchain_platform.registered_identity_payload_h_9mn7cf/ansible_ibm.blockchain_platform.registered_identity_payload.zip/ansible_collections/ibm/blockchain_platform/plugins/module_utils/consoles.py:158"
+}
+2021-09-27 14:48:12,393 - ibm.blockchain_platform.registered_identity - DEBUG - {
+    "msg": "got all components",
+    "components": [],
+    "caller": "/tmp/ansible_ibm.blockchain_platform.registered_identity_payload_h_9mn7cf/ansible_ibm.blockchain_platform.registered_identity_payload.zip/ansible_collections/ibm/blockchain_platform/plugins/module_utils/consoles.py:162"
+}

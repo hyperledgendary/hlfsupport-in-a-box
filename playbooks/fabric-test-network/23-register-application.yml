@@ -22,7 +22,7 @@
         max_enrollments: "{{ application_max_enrollments }}"
         type: "{{ application_enrollment_type }}"
         attributes:
-          - name: "{{ smart_contract_name }}.admin"
+          - name: "apporg2.admin"
             value: "true"
 
     - name: Create a connection profile

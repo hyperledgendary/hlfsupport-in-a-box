@@ -26,18 +26,23 @@ ROOTDIR=$(cd "$(dirname "$0")/.." && pwd)
 : ${OCP_TOKEN:=""}
 : ${CONSOLE_PASSWORD:="new42day"}
 : ${PROJECT_NAME_VALUE:="hlf-network"}
+: ${CLUSTER_TYPE:="ocp"}
+
 ###
 # Ansible playbook installation of CRD and Operator/Console
 ###
-
-# Fyre is a pure OCP environment outside IBM Cloud, therefore no requirement
-# To login 
-if [ -z $OCP_TOKEN ]; then
-  # pasword and user id login
-  # OCP_PASSWORD=$(jq -r '.clusters[0].kubeadmin_password' "$ROOT_DIR/fyre/ocpdetails.json")
-  oc login ${OCP_URL} --password ${OCP_PASSWORD} --username ${OCP_USERNAME} --insecure-skip-tls-verify=true
+if [ $CLUSTER_TYPE == "ocp" ]; then
+  # To login 
+  if [ -z $OCP_TOKEN ]; then
+    # pasword and user id login
+    # OCP_PASSWORD=$(jq -r '.clusters[0].kubeadmin_password' "$ROOT_DIR/fyre/ocpdetails.json")
+    oc login ${OCP_URL} --password ${OCP_PASSWORD} --username ${OCP_USERNAME} --insecure-skip-tls-verify=true
+  else
+    oc login --token=${OCP_TOKEN} --server=${OCP_TOKEN_SERVER}
+  fi
 else
-  oc login --token=${OCP_TOKEN} --server=${OCP_TOKEN_SERVER}
+  echo "Using generic IKS Cluster"
+  kubectl config current-context
 fi
 
 # Gererate playbooks (latest-crds.yml, latest-console.yml)
@@ -68,13 +73,11 @@ sleep 2m
 
 # Build authentication variables required for the new Console (must change default password)
 echo "Generating authentication vars for new console"
-# if [ $CLUSTER_TYPE == "iks" ]; then
-#   # IBP_CONSOLE=$(kubectl get ing/ibp-console --namespace openmarvin -o=json | jq .spec.rules[0].host | tr -d '"')
-#   echo "not yet supported"
-#   exit 1
-# else
-IBP_CONSOLE=$(kubectl get routes/ibm-hlfsupport-console-console --namespace ${PROJECT_NAME_VALUE} -o=json | jq .spec.host | tr -d '"')
-# fi
+if [ $CLUSTER_TYPE == "iks" ]; then
+   IBP_CONSOLE=$(kubectl -n ${PROJECT_NAME_VALUE} get ingress -o json | jq ".items[0].spec.rules[0].host" -r)
+else
+  IBP_CONSOLE=$(kubectl get routes/ibm-hlfsupport-console-console --namespace ${PROJECT_NAME_VALUE} -o=json | jq .spec.host | tr -d '"')
+fi
 
 # Basic auth passed here must match that in the generated ansible playbooks. You have been warned.
 AUTH=$(curl -X POST \
