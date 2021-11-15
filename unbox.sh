@@ -2,7 +2,7 @@
 
 set -e -u -o pipefail
 ROOTDIR=$(cd "$(dirname "$0")" && pwd)
-IMAGE_NAME=ghcr.io/hyperledgendary/hlfsupport-in-a-box:main
+: ${IMAGE_NAME:=ghcr.io/hyperledgendary/hlfsupport-in-a-box:main}
 
 mkdir -p ${ROOTDIR}/_cfg
 
@@ -11,8 +11,10 @@ if [ ! -f .env ]; then
   exit 1
 fi
 
-docker run --env-file .env -it -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} console
-docker run --env-file .env -it -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} network
+# attach these to the host network so it's easier for networking and map in the kubeconfig location
+docker run --env-file .env -it --network=host -v /home/${USER}/.kube/config:/root/.kube/config -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} network
+docker run --env-file .env -it --network=host -v /home/${USER}/.kube/config:/root/.kube/config -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} console
+
 
 echo 
 echo -----------------------------------------------------------------------------------------------------
