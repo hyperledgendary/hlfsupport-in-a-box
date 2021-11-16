@@ -6,21 +6,36 @@ along with a test Fabric network for 2 organizations.
 Everything is contained within a single docker image; this needs a configuration file to point to the cluster, and give credentials.
 A local directory can also be mapped that will contain connection information for applications etc. 
 
+
+**Uber-quick-start**
+- Get a fresh provisioned Linux machine.
+- This will install and setup the Docker, Kind, and basic config for you
+```bash
+curl -sSL https://raw.githubusercontent.com/hyperledgendary/hlfsupport-in-a-box/main/prereqs.sh -o prereqs.sh && chmod +x prereqs.sh
+./prereqs.sh
+```
+- Add you email and entitlement key to the `cfg.env` file
+- Install the HLF support into the local Kind cluster
+```bash
+curl -sSL https://raw.githubusercontent.com/hyperledgendary/hlfsupport-in-a-box/main/unbox.sh -o unbox.sh && chmod +x unbox.sh
+./unbox.sh
+```
+
 ## Requirements
 
-- a provisioned openshift cluster or a localy running k8s cluster
-- entitlement credentials for the HLFSupport images
-- Docker or podman installed locally
+- Either provisioned OpenShift cluster or a locally running k8s cluster
+- Entitlement credentials for the HLFSupport images
+- Docker installed locally
   
-- Also create a new empty directory to work in. 
+- Recommended that you create a directory to work in 
 
 For IBM Software Library Images, your entitlement keys can be obtained from [this site](https://myibm.ibm.com/products-services/containerlibrary)
 ## Configuration for a Cloud-hosted Cluster
 
-A `.env` file needs to be created that contains the details of the provisioned OpenShift Cluster, along with 
+A `cfg.env` file needs to be created that contains the details of the provisioned OpenShift Cluster, along with 
 credentials to the docker registry with the images.
 
-A sample `.env` would be
+A sample `cfg.env` would be
 
 ```
 OCP_TOKEN_SERVER=https://xxxxxxx:99999
@@ -32,15 +47,15 @@ DOCKER_EMAIL=fred@example.com
 
 ```
 
-Create the .env file in the new empty directory
+Create the cfg.env file in the new empty directory
 
 ```bash
 mkdir hlf && cd hlf
-touch .env
+touch cfg.env
 # and edit
 ```
 
-## Configuration for a localhos-hosted cluster
+## Configuration for a locally-hosted cluster
 
 This can be run entirely locally on one machine, this is very good for demos and exploration. 
 The suggestion is to setup a KIND based k8s cluster. The simplest way to get a good KIND configuration is to use the `test-network-k8s` from the `hyperledger/fabric-samples` github repository
@@ -51,7 +66,7 @@ cd fabric-samples/test-network-k8s
 ./network kind
 ```
 
-This setups your local kubcetl context; this means that the `.env` file you need to created is similar to this.
+This setups your local kubcetl context; this means that the `cfg.env` file you need to created is similar to this.
 Note that the `console-domain` has an IP address that will needs to resolve to the host that you are running KIND on. A quick way to get this is to issues `hostname -I` and use the first IP address returned.
 
 ```env

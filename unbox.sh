@@ -6,14 +6,15 @@ ROOTDIR=$(cd "$(dirname "$0")" && pwd)
 
 mkdir -p ${ROOTDIR}/_cfg
 
-if [ ! -f .env ]; then
-  echo "Please ensure a .env file is present"
+if [ ! -f cfg.env ]; then
+  echo "Please ensure a cfg.env file is present"
   exit 1
 fi
 
 # attach these to the host network so it's easier for networking and map in the kubeconfig location
-docker run --env-file .env -it --network=host -v /home/${USER}/.kube/config:/root/.kube/config -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} network
-docker run --env-file .env -it --network=host -v /home/${USER}/.kube/config:/root/.kube/config -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} console
+docker run --env-file cfg.env -it --network=host -v ${HOME}/.kube/:/root/.kube/ -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} console
+docker run --env-file cfg.env -it --network=host -v ${HOME}/.kube/:/root/.kube/ -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} network
+
 
 
 echo 
