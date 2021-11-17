@@ -15,8 +15,6 @@ fi
 docker run --env-file cfg.env -it --network=host -v ${HOME}/.kube/:/root/.kube/ -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} console
 docker run --env-file cfg.env -it --network=host -v ${HOME}/.kube/:/root/.kube/ -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} network
 
-
-
 echo 
 echo -----------------------------------------------------------------------------------------------------
 echo

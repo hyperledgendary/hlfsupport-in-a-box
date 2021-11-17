@@ -1,4 +1,6 @@
+#!/bin/bash
 
+set -e -u -o pipefail
 
 # General update for the system
 sudo apt-get -qy update -y && sudo apt-get -qy upgrade
@@ -22,7 +24,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 ## Install KIND
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
 chmod +x ./kind
-mv ./kind /usr/local/bin/kind
+sudo mv ./kind /usr/local/bin/kind
 
 ## kubectl
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
