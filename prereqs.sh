@@ -31,6 +31,11 @@ sudo mv ./kind /usr/local/bin/kind
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
+## k9s for the ease of setup
+curl -Lo k9s.tgz https://github.com/derailed/k9s/releases/download/v0.25.3/k9s_Linux_x86_64.tar.gz
+tar -zxf k9s.tgz
+sudo mv ./k9s /usr/local/bin/k9s
+
 ## Start network
 git clone https://github.com/hyperledger/fabric-samples.git
 
