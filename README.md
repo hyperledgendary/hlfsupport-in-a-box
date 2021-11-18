@@ -1,35 +1,46 @@
 # HLF-Support-In-A-Box
 
-A single docker image with the Ansible and configuration scripts required to setup the HLFSupport images in an Open Shift Cluster
-along with a test Fabric network for 2 organizations.
+A single docker image with the Ansible and configuration scripts required to setup the HLFSupport images in an Open Shift or K8S Cluster
+along with a test Fabric Network for 2 organizations.
 
-Everything is contained within a single docker image; this needs a configuration file to point to the cluster, and give credentials.
-A local directory can also be mapped that will contain connection information for applications etc. 
+Everything is contained within a single docker image; this needs a configuration file to point to the cluster, and give the entitlement
+key to the IBM Container Library. 
 
+A local directory is also mapped that will contain connection information for applications etc.
+
+---
+*For IBM Software Library Images, your entitlement keys can be obtained from [this site](https://myibm.ibm.com/products-services/containerlibrary)*
+
+---
 
 **Uber-quick-start**
+
 - Get a fresh provisioned Linux machine.
 - This will install and setup the Docker, Kind, and basic config for you
 ```bash
 curl -sSL https://raw.githubusercontent.com/hyperledgendary/hlfsupport-in-a-box/main/prereqs.sh -o prereqs.sh && chmod +x prereqs.sh
 ./prereqs.sh
 ```
+
 - Add you email and entitlement key to the `cfg.env` file
+
 - Install the HLF support into the local Kind cluster
 ```bash
 curl -sSL https://raw.githubusercontent.com/hyperledgendary/hlfsupport-in-a-box/main/unbox.sh -o unbox.sh && chmod +x unbox.sh
 ./unbox.sh
 ```
 
-## Requirements
+## Detailed Requirements
+
+If you want to use an existing system these are the tools that you will need
 
 - Either provisioned OpenShift cluster or a locally running k8s cluster
 - Entitlement credentials for the HLFSupport images
 - Docker installed locally
+- Suggested that you have some tooling-of-choice to work with your k8s cluster. 
   
 - Recommended that you create a directory to work in 
 
-For IBM Software Library Images, your entitlement keys can be obtained from [this site](https://myibm.ibm.com/products-services/containerlibrary)
 ## Configuration for a Cloud-hosted Cluster
 
 A `cfg.env` file needs to be created that contains the details of the provisioned OpenShift Cluster, along with 
@@ -39,10 +50,10 @@ A sample `cfg.env` would be
 
 ```
 OCP_TOKEN_SERVER=https://xxxxxxx:99999
-OCP_TOKEN=sha256~<token>7rsaZNbfsJH5wkGQw-xuBUjmlklWTF1yovp3kOBrRdw
+OCP_TOKEN=sha256~<token>
 CONSOLE_DOMAIN=<domain console will be at - the ingress domain>
 
-DOCKER_PW=<password>
+DOCKER_PW=<image entitlement token>
 DOCKER_EMAIL=fred@example.com
 
 ```
@@ -75,7 +86,7 @@ CONSOLE_DOMAIN=172-22-140-212.nip.io
 CONSOLE_STORAGE_CLASS=standard
 
 DOCKER_EMAIL=fred@example.com
-DOCKER_PW=xxxxxxxxxxxxxxxxxxxxx
+DOCKER_PW=<image entitlement key>
 ```
 
 ## Running

@@ -2,9 +2,13 @@
 
 set -e -u -o pipefail
 
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
 # General update for the system
 sudo apt-get -qy update -y && sudo apt-get -qy upgrade
-
 
 ## Install Docker engine
 # Commands from https://docs.docker.com/engine/install/ubuntu/
@@ -12,14 +16,11 @@ sudo apt-get -qy install \
     ca-certificates \
     curl \
     gnupg \
-    lsb-release
+    lsb-release \
+    docker-ce docker-ce-cli containerd.io 
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+sudo groupadd docker -f
+sudo usermod -aG docker $USER
 
 ## Install KIND
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
