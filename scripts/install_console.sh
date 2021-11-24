@@ -35,7 +35,6 @@ if [ $CLUSTER_TYPE == "ocp" ]; then
   # To login 
   if [ -z $OCP_TOKEN ]; then
     # pasword and user id login
-    # OCP_PASSWORD=$(jq -r '.clusters[0].kubeadmin_password' "$ROOT_DIR/fyre/ocpdetails.json")
     oc login ${OCP_URL} --password ${OCP_PASSWORD} --username ${OCP_USERNAME} --insecure-skip-tls-verify=true
   else
     oc login --token=${OCP_TOKEN} --server=${OCP_TOKEN_SERVER}
@@ -76,7 +75,7 @@ echo "Generating authentication vars for new console"
 if [ $CLUSTER_TYPE == "iks" ]; then
    IBP_CONSOLE=$(kubectl -n ${PROJECT_NAME_VALUE} get ingress -o json | jq ".items[0].spec.rules[0].host" -r)
 else
-  IBP_CONSOLE=$(kubectl get routes/ibm-hlfsupport-console-console --namespace ${PROJECT_NAME_VALUE} -o=json | jq .spec.host | tr -d '"')
+  IBP_CONSOLE=$(kubectl get routes/hlf-console --namespace ${PROJECT_NAME_VALUE} -o=json | jq .spec.host | tr -d '"')
 fi
 
 # Basic auth passed here must match that in the generated ansible playbooks. You have been warned.

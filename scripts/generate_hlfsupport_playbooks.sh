@@ -23,15 +23,9 @@ ARCHITECTURE=amd64
 if [ $CLUSTER_TYPE == "iks" ]; then
   TARGET_VALUE=k8s
   PROJECT_OR_NAMEPSACE_KEY=namespace
-  # CONSOLE_STORAGE_CLASS="console_storage_class: standard"
 elif [ $CLUSTER_TYPE == "ocp" ]; then
   TARGET_VALUE=openshift
   PROJECT_OR_NAMEPSACE_KEY=project
-  
-elif [ $CLUSTER_TYPE == "ocp-fyre" ]; then
-  TARGET_VALUE=openshift
-  PROJECT_OR_NAMEPSACE_KEY=project
-  CONSOLE_STORAGE_CLASS="rook-cephfs"
 else
   echo "CLUSTER_TYPE Unkown, can't create playbooks"
   exit -1
