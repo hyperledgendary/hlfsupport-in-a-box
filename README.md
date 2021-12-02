@@ -15,7 +15,7 @@ A local directory is also mapped that will contain connection information for ap
 
 **Uber-quick-start**
 
-- Get a fresh provisioned Linux machine.
+- Get a fresh provisioned Linux machine. As this is going to run a cluster locally it needs to have about 8CPUs, 16Gb memory.  
 - This will install and setup the Docker, Kind, and basic config for you
 ```bash
 curl -sSL https://raw.githubusercontent.com/hyperledgendary/hlfsupport-in-a-box/main/prereqs.sh -o prereqs.sh && chmod +x prereqs.sh
@@ -30,6 +30,16 @@ curl -sSL https://raw.githubusercontent.com/hyperledgendary/hlfsupport-in-a-box/
 ./unbox.sh
 ```
 
+## Using IBM Cloud Transient Virtual Servers
+
+The IBM Cloud Classic Infrastructure has a class of virtual services defined as "Transient". These are cheap, and fine for exploration usage.
+
+When creating these, it's suggested to use the 8 vCPUs / 16 GB memory. It's worth getting the 100Gb storage just in case.  
+
+Select the Ubuntu 20.04 LTS miniaml as the operating system.
+
+
+
 ## Detailed Requirements
 
 If you want to use an existing system these are the tools that you will need
@@ -39,7 +49,9 @@ If you want to use an existing system these are the tools that you will need
 - Docker installed locally
 - Suggested that you have some tooling-of-choice to work with your k8s cluster. 
   
-- Recommended that you create a directory to work in 
+- Recommended that you create a directory to work in
+
+- If you want to provision a Linux VM then 8 vCPU, 16Gb Memory are worth getting. 
 
 ## Configuration for a Cloud-hosted Cluster
 
