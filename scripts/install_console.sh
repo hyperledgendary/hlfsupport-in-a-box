@@ -39,9 +39,11 @@ if [ $CLUSTER_TYPE == "ocp" ]; then
   else
     oc login --token=${OCP_TOKEN} --server=${OCP_TOKEN_SERVER}
   fi
-else
-  echo "Using generic IKS Cluster"
+else 
+  echo "Using IBM IKS Cluster"
   kubectl config current-context
+  CLUSTER_ID=$(kubectl config current-context | cut -f2 -d'/')
+
 fi
 
 # Gererate playbooks (latest-crds.yml, latest-console.yml)
@@ -52,8 +54,29 @@ else
 	$ROOTDIR/scripts/generate_hlfsupport_dev_playbooks.sh
 fi
 
-# exit 0 
-# Install CRD and IBP Console, use config in sourced export $KUBECONFIG
+# IKS requires the Ingress Controller to be setup to support SSL Passthrough
+# See https://cloud.ibm.com/docs/blockchain-sw-252?topic=blockchain-sw-252-deploy-k8#console-deploy-k8-iks-considerations
+if [ $CLUSTER_TYPE == "iks" ]; then
+  echo "Attempting to set the Ingress Controller to support SSL Passthrough"
+  JSON='{"enableSslPassthrough":"true", "ingressClass":"nginx","replicas":1}'
+  DATA=$(ibmcloud ks alb ls -c ${CLUSTER_ID} --output json | jq --raw-output '"\(.alb[].albID): JSONHERE"' ) 
+  DATA=$(echo $DATA | sed "s/JSONHERE/'${JSON}'\n/g" )
+  cat > ibm-ingress-deploy-config.yml <<EOF
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: ibm-ingress-deploy-config
+ namespace: kube-system
+data:
+ ${DATA}
+EOF
+    cat ibm-ingress-deploy-config.yml
+    kubectl apply -f ibm-ingress-deploy-config.yml
+    ibmcloud ks ingress alb update -c ${CLUSTER_ID}
+fi
+
+# Install CRD and IBP Console
 echo "Installing IBP Custom Resource Definition and Console"
 
 # Provide logs on any problems regardless of whether debug is 0 or 1.
@@ -73,7 +96,7 @@ sleep 2m
 # Build authentication variables required for the new Console (must change default password)
 echo "Generating authentication vars for new console"
 if [ $CLUSTER_TYPE == "iks" ]; then
-   IBP_CONSOLE=$(kubectl -n ${PROJECT_NAME_VALUE} get ingress -o json | jq ".items[0].spec.rules[0].host" -r)
+  IBP_CONSOLE=$(kubectl -n ${PROJECT_NAME_VALUE} get ingress -o json | jq ".items[0].spec.rules[0].host" -r)
 else
   IBP_CONSOLE=$(kubectl get routes/hlf-console --namespace ${PROJECT_NAME_VALUE} -o=json | jq .spec.host | tr -d '"')
 fi
@@ -100,3 +123,4 @@ api_authtype: basic
 api_secret: $SECRET
 EOF
 
+cat $ROOTDIR/playbooks/fabric-test-network/auth-vars.yml
