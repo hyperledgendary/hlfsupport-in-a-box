@@ -11,6 +11,9 @@ if [ ! -f cfg.env ]; then
   exit 1
 fi
 
+# If you want to adjust or develop the scripts used, then adjust the workspace mount point
+# Use "-v ${ROOTDIR}:/workspace/" to mount the whole directory
+
 # attach these to the host network so it's easier for networking and map in the kubeconfig location
 docker run --env-file cfg.env -it --network=host -v ${HOME}/.kube/:/root/.kube/ -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} console
 docker run --env-file cfg.env -it --network=host -v ${HOME}/.kube/:/root/.kube/ -v ${ROOTDIR}/_cfg:/workspace/_cfg ${IMAGE_NAME} network

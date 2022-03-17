@@ -58,15 +58,33 @@ If you want to use an existing system these are the tools that you will need
 A `cfg.env` file needs to be created that contains the details of the provisioned OpenShift Cluster, along with 
 credentials to the docker registry with the images.
 
-A sample `cfg.env` would be
+This is the example `cfg.env`
 
-```
-OCP_TOKEN_SERVER=https://xxxxxxx:99999
-OCP_TOKEN=sha256~<token>
-CONSOLE_DOMAIN=<domain console will be at - the ingress domain>
+```bash
+# iks & ocp are all accepted values
+#
+# iks will assumet the current kubectl context is the one to use
+# ocp will use the `oc` cli to login to the cluster
+CLUSTER_TYPE=iks
 
-DOCKER_PW=<image entitlement token>
-DOCKER_EMAIL=fred@example.com
+# For OCP token authentication use these settings
+OCP_TOKEN_SERVER=api.gabbros.cp.fyre.ibm.com:6443
+OCP_TOKEN=sha256~XX
+
+# username/password authentication is possible, comment out the OCP_TOKEN and use these settings
+# OCP_URL=uuuu
+# OCP_PASSWORD=pppp
+# OCP_USERNAME=xxxx
+
+# The domain where the console is to be hosted
+CONSOLE_DOMAIN=apps.gabbros.cp.fyre.ibm.com
+
+# Depending on the cluster you might need to alter the storage class being used
+# CONSOLE_STORAGE_CLASS=standard
+
+# Credentials to access the IBM Container Library
+DOCKER_EMAIL=fred@uk.ibm.com
+DOCKER_PW=xxxxxxxxx
 
 ```
 
@@ -83,7 +101,7 @@ touch cfg.env
 This can be run entirely locally on one machine, this is very good for demos and exploration. 
 The suggestion is to setup a KIND based k8s cluster. The simplest way to get a good KIND configuration is to use the `test-network-k8s` from the `hyperledger/fabric-samples` github repository
 
-```
+```bash
 git clone https://github.com/hyperledger/fabric-samples.git
 cd fabric-samples/test-network-k8s
 ./network kind
@@ -92,7 +110,7 @@ cd fabric-samples/test-network-k8s
 This setups your local kubcetl context; this means that the `cfg.env` file you need to created is similar to this.
 Note that the `console-domain` has an IP address that will needs to resolve to the host that you are running KIND on. A quick way to get this is to issues `hostname -I` and use the first IP address returned.
 
-```env
+```bash
 CLUSTER_TYPE=iks
 CONSOLE_DOMAIN=172-22-140-212.nip.io
 CONSOLE_STORAGE_CLASS=standard
@@ -100,6 +118,9 @@ CONSOLE_STORAGE_CLASS=standard
 DOCKER_EMAIL=fred@example.com
 DOCKER_PW=<image entitlement key>
 ```
+
+## Storage Classes
+Depending on creation, the storage classes may might need to be configured. The `scripts/setup_storage_classes.sh` can be used in this.
 
 ## Running
 
